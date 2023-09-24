@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.16.3)
+
+project(SqrBytes VERSION 0.1.1 DESCRIPTION "Simple game engine in C++")
+
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
+
+set_target_properties(${PROJECT_NAME} 
+    PROPERTIES 
+        PUBLIC_HEADER 
+            ${PROJECT_SOURCE_DIR}/sqrbytes.hpp
+)
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+    ${PROJECT_SOURCE_DIR}/src
+    ${CMAKE_BINARY_DIR}/../deps
+)
+
+target_link_libraries(${PROJECT_NAME}
+    sfml-graphics
+    sfml-window
+    sfml-system
+)
+
+install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_BINARY_DIR})
